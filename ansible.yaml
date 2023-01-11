@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    page_title: Spacelift
+    page_description: Spacelift is a sophisticated CI/CD platform for Terraform, CloudFormation, Pulumi, and Kubernetes.
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: latest
+
+    - name: Apply Page Template
+      template:
+        src: files/spacelift-intro.j2
+        dest: /var/www/html/index.nginx-debian.html
+
+    - name: Allow all access to tcp port 80
+      ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
